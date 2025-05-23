@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calorie-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calorie
+  template:
+    metadata:
+      labels:
+        app: calorie
+    spec:
+      containers:
+        - name: calorie-container
+          image: your-dockerhub-id/calorie-app:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: /app/output
+              name: result-volume
+      volumes:
+        - name: result-volume
+          persistentVolumeClaim:
+            claimName: calorie-pvc
